@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,7 +29,9 @@ class ProjectController extends Controller
     {
         $types = Type::all();
 
-        return view('admin.projects.create', compact('types'));
+        $technologies = Technology::all();
+
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -49,6 +52,8 @@ class ProjectController extends Controller
 
         $newProject->save();
 
+        $newProject->technologies()->attach($request->technologies);
+
         return redirect()->route('admin.projects.index', $newProject->id);
     }
 
@@ -67,7 +72,9 @@ class ProjectController extends Controller
     {
         $types = Type::all();
 
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -86,6 +93,8 @@ class ProjectController extends Controller
         $project->update($request->all());
 
         $project->save();
+
+        $project->technologies()->sync($request->technologies);
 
         return redirect()->route('admin.projects.show', $project->id);
     }

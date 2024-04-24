@@ -6,6 +6,8 @@ use App\Models\Type;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
 
+use function PHPSTORM_META\type;
+
 class TypeController extends Controller
 {
     /**
@@ -72,6 +74,7 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        //
+        $type->delete();
+        return redirect()->route('admin.types.show', $type->id);
     }
 }

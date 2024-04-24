@@ -47,13 +47,42 @@
 
         <div class="mb-4">
             <label for="type_id">Types</label>
-            <select class="form-select" name="type_id" id="type_id">
+            <select class="form-select @error('type_id') is-invalid @enderror" name="type_id" id="type_id">
                 <option value=""></option>
                 @foreach ($types as $type)
                 <option value="{{$type->id}}" {{ $type->id == old('type_id') ? 'selected' : '' }}>{{ $type->name }}</option>
                 @endforeach
             </select>
+            @error('type_id')
+            <div class="invalid-feedback">
+                {{$message}}
+            </div>
+            @enderror
 
+        </div>
+
+        <div class="mb-4">
+            <label class="mb-2" for="">Technologies</label>
+            <div class="d-flex gap-4">
+
+                @foreach($technologies as $technology)
+                <div class="form-check ">
+                    <input type="checkbox" name="technologies[]" value="{{$technology->id}}" class="form-check-input" id="technology-{{$technology->id}}" @if($errors->any())
+
+                    {{ in_array($technology->id, old('technologies', [])) ? 'checked' : '' }}
+
+                    @else
+
+                    {{ $project->technologies->contains($technology) ? 'checked' : '' }}
+
+                    @endif
+                    >
+
+                    <label for="technology-{{$technology->id}}" class="form-check-label">{{$technology->title}}</label>
+                </div>
+                @endforeach
+
+            </div>
         </div>
 
         <button type="submit" class="btn btn-primary">Save</button>

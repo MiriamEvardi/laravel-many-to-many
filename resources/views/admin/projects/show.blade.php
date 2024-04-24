@@ -3,8 +3,15 @@
 @section('content')
 <div class="container py-5">
     <h1>{{$project->name}}</h1>
+
+
     <p>({{$project->type->name}})</p>
 
+    <div class="d-flex gap-2 mb-5">
+        @foreach ($project->technologies as $technology)
+        <span class="badge rounded-pill">{{$technology->title}}</span>
+        @endforeach
+    </div>
 
     <div class=" text-center image">
         <img src=" {{asset('storage/' . $project->preview)}}" alt="image preview">
