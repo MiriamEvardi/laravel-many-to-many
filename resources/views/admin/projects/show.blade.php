@@ -9,7 +9,7 @@
 
     <div class="d-flex gap-2 mb-5">
         @foreach ($project->technologies as $technology)
-        <span class="badge rounded-pill">{{$technology->title}}</span>
+        <span class="text-dark">{{$technology->title}}</span>
         @endforeach
     </div>
 
